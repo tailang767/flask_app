@@ -29,8 +29,14 @@ def calc_tango_similarity(tango, bunsyou, sikiiti):
     bunsyou = unicodedata.normalize("NFKC", bunsyou).lower()
 
     #類似度を返す
-    score = fuzz.partial_ratio(tango, bunsyou)
-    score = round(score/100, 2)    #例：33.333...→0.33
+    #score = fuzz.partial_ratio(tango, bunsyou)
+    #score = round(score/100, 2)    #例：33.333...→0.33
+    count = 0
+    for i in range(len(tango)):
+        if tango[i] in bunsyou:
+            count += 1
+            bunsyou = bunsyou.replace(tango[i],"",1)
+    score = count / len(tango)
 
     #scoreがしきい値未満（しきい値のデフォルト0.5）はスコア0
     if score < sikiiti:
